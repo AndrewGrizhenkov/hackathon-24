@@ -33,7 +33,7 @@ jobs:
         env:
           YOUR_TOKEN: ${{ secrets.GHPAT }}
 
-      - name: build ocs
+      - name: build Docs
         run: npm i && npm run build:docs
 
       - name: Commit and push changes
