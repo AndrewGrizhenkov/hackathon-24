@@ -54,4 +54,4 @@ async function updateReadme(owner, repo) {
     fs.writeFileSync('README.md', updatedReadme);
 }
 
-updateReadme('AndrewGrizhenkov', 'copilot-metrics-viewer');
+updateReadme('AndrewGrizhenkov', 'cyplau/git-repo-insights.git');
