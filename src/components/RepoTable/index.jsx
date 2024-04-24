@@ -14,8 +14,8 @@ function RepoTable({ reposData = [] }) {
     .map((repoEntry) => {
       return {
         name: repoEntry[0],
-        commits: repoEntry[1][1]["commit_last_month"].length,
-        PRs: repoEntry[1][0]["open_pr"].length,
+        commits: repoEntry[1][1]["commit_last_month"],
+        PRs: repoEntry[1][0]["open_pr"],
       };
     })
     .sort((a, b) => {
