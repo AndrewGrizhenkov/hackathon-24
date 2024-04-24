@@ -1,7 +1,17 @@
 import fs from 'fs';
 import axios from 'axios';
 
-async function getTopContributors(owner, repo) {
+async function getTopContributors(repo) {
+    // Search for the repository
+    const searchResponse = await axios.get(`https://api.github.com/search/repositories?q=${repo}`);
+    if (searchResponse.data.items.length === 0) {
+        throw new Error(`Repository ${repo} not found`);
+    }
+
+    // Get the owner from the first search result
+    const owner = searchResponse.data.items[0].owner.login;
+
+    // Get the contributors
     const { data } = await axios.get(`https://api.github.com/repos/${owner}/${repo}/contributors`);
     return data.slice(0, 10).map(contributor => ({
         login: contributor.login,
@@ -46,7 +56,7 @@ async function getCommits(owner, repo) {
 }
 
 async function updateReadme(owner, repo) {
-    const contributors = await getTopContributors(owner, repo);
+    const contributors = await getTopContributors(repo);
     const contributorsThisMonth = await getCommits(owner, repo);
     const readme = fs.readFileSync('README.md', 'utf8');
     let updatedReadme = readme.replace(/## Top Contributors\n\n([^#]+)/, `## Top Contributors\n\n${contributors.map(contributor => `1. [${contributor.login}](https://github.com/${contributor.login}) - ${contributor.contributions} commits`).join('\n')}\n`);
