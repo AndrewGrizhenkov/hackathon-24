@@ -7,7 +7,21 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import RepoRow from "../RepoRow";
 
+import repoData from "../../../data/most_active_repos.json";
+
 function RepoTable({ reposData = [] }) {
+  const repoList = Object.entries(repoData)
+    .map((repoEntry) => {
+      return {
+        name: repoEntry[0],
+        commits: repoEntry[1][1]["commit_last_month"].length,
+        PRs: repoEntry[1][0]["open_pr"].length,
+      };
+    })
+    .sort((a, b) => {
+      return b.commits - a.commits;
+    });
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -15,13 +29,12 @@ function RepoTable({ reposData = [] }) {
           <TableRow>
             <TableCell />
             <TableCell>Repo name</TableCell>
-            <TableCell align="right">Stars</TableCell>
             <TableCell align="right"># of commits</TableCell>
             <TableCell align="right"># of PRs</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {reposData.map((row) => (
+          {repoList.map((row) => (
             <RepoRow row={row} key={row.name} />
           ))}
         </TableBody>
