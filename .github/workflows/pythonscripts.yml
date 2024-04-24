@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   send-http-request:
@@ -30,4 +31,4 @@ jobs:
       - name: Run Python script
         run: python path/to/your/script.py ${{ env.REPOS }} ${{ env.OWNERS }}
         env:
-          YOUR_TOKEN: ${{ secrets.YOUR_GITHUB_TOKEN }}
+          YOUR_TOKEN: ${{ secrets.GHPAT }}
