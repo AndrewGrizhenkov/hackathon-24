@@ -55,7 +55,7 @@ async function updateReadme(owner, repo) {
     const topContributorsSectionRegex = /## Top Contributors\n\n([^#]+)/;
     const thisMonthContributorsSectionRegex = /## This Month's Most Active Contributors\n\n([^#]+)/;
 
-    updatedReadme = updatedReadme.replace(topContributorsSectionRegex, `## Top Contributors\n\n${contributors.map((contributor, index) => `${index + 1}. [${contributor.login}](https://github.com/${contributor.login}) - ${contributor.contributions} commits`).join('\n')}\n`);
+    updatedReadme = updatedReadme.replace(topContributorsSectionRegex, `## Top Contributors - ${repo}\n\n${contributors.map((contributor, index) => `${index + 1}. [${contributor.login}](https://github.com/${contributor.login}) - ${contributor.contributions} commits`).join('\n')}\n`);
     updatedReadme = updatedReadme.replace(thisMonthContributorsSectionRegex, `## This Month's Most Active Contributors\n\n${contributorsThisMonth.map((contributors, index) => `${index + 1}. [${contributors.login}](https://github.com/${contributors.login}) - ${contributors.contributions} commits`).join('\n')}\n`);
 
     fs.writeFileSync('README.md', updatedReadme);
