@@ -54,11 +54,11 @@ def get_most_active_repos(owner_repo: dict):
             "state": "open"
         }
 
-        open_pr_number: int
+        open_pr = {}
         try:
             response = requests.get(get_pr_url, headers=headers, params=params)
             response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
-            open_pr_number = len(response.json())
+            open_pr = response.json()
         except requests.RequestException as e:
             print("Error sending HTTP request:", e)
 
@@ -71,15 +71,15 @@ def get_most_active_repos(owner_repo: dict):
             "since": f"{since}"
         }
 
-        commit_number_past_month: int
+        commit_last_month = {}
         try:
             response = requests.get(get_commit_url, headers=headers, params=params)
             response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
-            commit_number_past_month = len(response.json())
+            commit_last_month = response.json()
         except requests.RequestException as e:
             print("Error sending HTTP request:", e)
 
-        repo_active_score[repo] = open_pr_number + commit_number_past_month
+        repo_active_score[repo] = [open_pr, commit_last_month]
 
     # Write the JSON string to the file
     with open(os.path.join(data_folder_path, file_name), "w+") as json_file:
