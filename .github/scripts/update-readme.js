@@ -19,10 +19,20 @@ async function getTopContributors(repo) {
     }));
 }
 
-async function getCommits(owner, repo) {
+async function getCommits(repo) {
     let page = 1;
     let commits = [];
     let hasNextPage = true;
+
+    // Search for the repository
+    const searchResponse = await axios.get(`https://api.github.com/search/repositories?q=${repo}`);
+    if (searchResponse.data.items.length === 0) {
+        throw new Error(`Repository ${repo} not found`);
+    }
+
+    // Get the owner from the first search result
+    const owner = searchResponse.data.items[0].owner.login;
+
 
     while (hasNextPage) {
         const response = await axios.get(`https://api.github.com/repos/${owner}/${repo}/commits?page=${page}&per_page=100`);
@@ -55,13 +65,13 @@ async function getCommits(owner, repo) {
     return sortedContributors.slice(0, 10).map(([login, contributions]) => ({ login, contributions }));
 }
 
-async function updateReadme(owner, repo) {
+async function updateReadme( repo) {
     const contributors = await getTopContributors(repo);
-    const contributorsThisMonth = await getCommits(owner, repo);
+    const contributorsThisMonth = await getCommits(repo);
     const readme = fs.readFileSync('README.md', 'utf8');
     let updatedReadme = readme.replace(/## Top Contributors\n\n([^#]+)/, `## Top Contributors\n\n${contributors.map(contributor => `1. [${contributor.login}](https://github.com/${contributor.login}) - ${contributor.contributions} commits`).join('\n')}\n`);
     updatedReadme = readme.replace(/## This Month's Most Active Contributors\n\n([^#]+)/, `## This Month's Most Active Contributors\n\n${contributorsThisMonth.map(contributor => `1. [${contributor.login}](https://github.com/${contributor.login}) - ${contributor.contributions} commits`).join('\n')}\n`);
     fs.writeFileSync('README.md', updatedReadme);
 }
 
-updateReadme('AndrewGrizhenkov', 'cyplau/git-repo-insights.git');
+updateReadme( 'AndrewGrizhenkov/copilot-metrics-viewer.git');
