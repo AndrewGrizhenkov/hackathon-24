@@ -47,6 +47,7 @@ async function getCommits(owner, repo) {
 
 async function updateReadme(owner, repo) {
     const contributors = await getTopContributors(owner, repo);
+    contributors.unshift({ login: repo, contributions: 0 }); // Add repo to the top contributors
     const contributorsThisMonth = await getCommits(owner, repo);
     console.log(contributors);
     console.log(contributorsThisMonth);
@@ -56,7 +57,7 @@ async function updateReadme(owner, repo) {
     const thisMonthContributorsSectionRegex = /## This Month's Most Active Contributors\n\n([^#]+)/;
 
     updatedReadme = updatedReadme.replace(topContributorsSectionRegex, `## Top Contributors - ${repo}\n\n${contributors.map((contributor, index) => `${index + 1}. [${contributor.login}](https://github.com/${contributor.login}) - ${contributor.contributions} commits`).join('\n')}\n`);
-    updatedReadme = updatedReadme.replace(thisMonthContributorsSectionRegex, `## This Month's Most Active Contributors\n\n${contributorsThisMonth.map((contributors, index) => `${index + 1}. [${contributors.login}](https://github.com/${contributors.login}) - ${contributors.contributions} commits`).join('\n')}\n`);
+    updatedReadme = updatedReadme.replace(thisMonthContributorsSectionRegex, `## This Month's Most Active Contributors - ${repo}\n\n${contributorsThisMonth.map((contributors, index) => `${index + 1}. [${contributors.login}](https://github.com/${contributors.login}) - ${contributors.contributions} commits`).join('\n')}\n`);
 
     fs.writeFileSync('README.md', updatedReadme);
 }
