@@ -66,8 +66,8 @@ async function updateReadme(repos) {
 
 const repos = [
     { owner: 'AndrewGrizhenkov', name: 'copilot-metrics-viewer' },
-    { owner: 'react', name: 'pandas' },
-    { owner: 'facebook', name: 'pandas-dev' }
+    { owner: 'facebook', name: 'react' },
+    // { owner: 'facebook', name: 'pandas-dev' }
 ];
 
 updateReadme(repos);
