@@ -48,38 +48,43 @@ def get_most_active_repos(owner_repo: dict):
 
     repo_active_score = dict()
     for owner, repo in owner_repo.items():
-        get_pr_url = f"https://api.github.com/repos/{owner}/{repo}/pulls"
+        open_pr_number = 0
+        commit_last_month = 0
+        for page in range(1, 100):
+            get_pr_url = f"https://api.github.com/repos/{owner}/{repo}/pulls"
 
-        params = {
-            "state": "open"
-        }
+            params = {
+                "state": "open",
+                "per_page": 100,
+                "page": page
+            }
 
-        open_pr = {}
-        try:
-            response = requests.get(get_pr_url, headers=headers, params=params)
-            response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
-            open_pr = response.json()
-        except requests.RequestException as e:
-            print("Error sending HTTP request:", e)
+            try:
+                response = requests.get(get_pr_url, headers=headers, params=params)
+                response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
+                open_pr_number = open_pr_number + len(response.json())
+            except requests.RequestException as e:
+                print("Error sending HTTP request:", e)
 
-        get_commit_url = f"https://api.github.com/repos/{owner}/{repo}/commits"
+            get_commit_url = f"https://api.github.com/repos/{owner}/{repo}/commits"
 
-        one_month_ago = datetime.now() - timedelta(days=30)
-        since = one_month_ago.strftime("%Y-%m-%dT%H:%M:%SZ")
+            one_month_ago = datetime.now() - timedelta(days=30)
+            since = one_month_ago.strftime("%Y-%m-%dT%H:%M:%SZ")
 
-        params = {
-            "since": f"{since}"
-        }
+            params = {
+                "since": f"{since}",
+                "per_page": 100,
+                "page": 1
+            }
 
-        commit_last_month = {}
-        try:
-            response = requests.get(get_commit_url, headers=headers, params=params)
-            response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
-            commit_last_month = response.json()
-        except requests.RequestException as e:
-            print("Error sending HTTP request:", e)
+            try:
+                response = requests.get(get_commit_url, headers=headers, params=params)
+                response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
+                commit_last_month = commit_last_month + len(response.json())
+            except requests.RequestException as e:
+                print("Error sending HTTP request:", e)
 
-        repo_active_score[repo] = [{"open_pr": open_pr}, {"commit_last_month": commit_last_month}]
+        repo_active_score[repo] = [{"open_pr": open_pr_number}, {"commit_last_month": commit_last_month}]
 
     # Write the JSON string to the file
     with open(os.path.join(data_folder_path, file_name), "w+") as json_file:
