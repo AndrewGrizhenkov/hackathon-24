@@ -27,4 +27,4 @@ jobs:
           git config --global user.email 'andrew.grizhenkov@bjss.com'
           git add .
           git commit -am "Update README with top contributors" || exit 0
-          git push https://${{ secrets.GHPAT }}@github.com:AndrewGrizhenkov/hackathon-24.git
+          git push https://${{ secrets.GHPAT }}@github.com/AndrewGrizhenkov/hackathon-24.git
