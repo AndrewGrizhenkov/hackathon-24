@@ -66,6 +66,7 @@ def get_most_active_repos(owner_repo: dict):
             except requests.RequestException as e:
                 print("Error sending HTTP request:", e)
 
+        for page in range(1, 100):
             get_commit_url = f"https://api.github.com/repos/{owner}/{repo}/commits"
 
             one_month_ago = datetime.now() - timedelta(days=30)
@@ -74,7 +75,7 @@ def get_most_active_repos(owner_repo: dict):
             params = {
                 "since": f"{since}",
                 "per_page": 100,
-                "page": 1
+                "page": page
             }
 
             try:
