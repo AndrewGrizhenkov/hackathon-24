@@ -10,8 +10,12 @@ import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import ContributorTable from "../ContributorTable";
 
+import contributorsData from "../../../data/most_active_contributors.json";
+
 function RepoRow({ row }) {
   const [open, setOpen] = useState(false);
+
+  const contributorList = contributorsData[row.name];
 
   return (
     <>
@@ -31,7 +35,6 @@ function RepoRow({ row }) {
         <TableCell component="th" scope="row">
           <Link href={row.url}>{row.name}</Link>
         </TableCell>
-        <TableCell align="right">{row.stars}</TableCell>
         <TableCell align="right">{row.commits}</TableCell>
         <TableCell align="right">{row.PRs}</TableCell>
       </TableRow>
@@ -42,7 +45,7 @@ function RepoRow({ row }) {
               <Typography variant="h6" gutterBottom component="div">
                 Contributors
               </Typography>
-              <ContributorTable contributors={row.contributors} />
+              <ContributorTable contributors={contributorList} />
             </Box>
           </Collapse>
         </TableCell>

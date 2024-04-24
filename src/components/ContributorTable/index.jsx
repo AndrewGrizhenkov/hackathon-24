@@ -9,19 +9,19 @@ function ContributorTable({ contributors = [] }) {
     <Table size="small" aria-label="purchases">
       <TableHead>
         <TableRow>
-          <TableCell>ID</TableCell>
+          <TableCell>Login</TableCell>
           <TableCell align="right"># of commits</TableCell>
           <TableCell align="right"># of PRs</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {contributors.map((contributor) => (
-          <TableRow key={contributor.id}>
+          <TableRow key={contributor.login}>
             <TableCell component="th" scope="row">
-              {contributor.id}
+              {contributor.login}
             </TableCell>
-            <TableCell align="right">{contributor.commits}</TableCell>
-            <TableCell align="right">{contributor.PRs}</TableCell>
+            <TableCell align="right">{contributor.contributions}</TableCell>
+            <TableCell align="right">{contributor.PRs ?? "-"}</TableCell>
           </TableRow>
         ))}
       </TableBody>
