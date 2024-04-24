@@ -62,4 +62,6 @@ async function updateReadme(owner, repo) {
     fs.writeFileSync('README.md', updatedReadme);
 }
 
-updateReadme('AndrewGrizhenkov', 'copilot-metrics-viewer');
+// updateReadme('AndrewGrizhenkov', 'copilot-metrics-viewer');
+updateReadme('react', 'pandas');
+updateReadme('facebook','pandas-dev');
