@@ -1,7 +1,7 @@
 [Project Website](https://andrewgrizhenkov.github.io/hackathon-24/)
 
 
-## Top Contributors
+## Top Contributors - copilot-metrics-viewer
 
 1. [martedesco](https://github.com/martedesco) - 55 commits
 2. [AndrewGrizhenkov](https://github.com/AndrewGrizhenkov) - 13 commits
