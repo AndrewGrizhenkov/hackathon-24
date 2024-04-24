@@ -74,4 +74,4 @@ async function updateReadme(repo) {
     fs.writeFileSync('README.md', updatedReadme);
 }
 
-updateReadme( 'github.com:kenshoo/react-multi-select.git');
+updateReadme( 'react-multi-select.git');
