@@ -49,8 +49,9 @@ async function updateReadme(owner, repo) {
     const contributors = await getTopContributors(owner, repo);
     const contributorsThisMonth = await getCommits(owner, repo);
     console.log(contributors);
+    console.log(contributorsThisMonth);
     const readme = fs.readFileSync('README.md', 'utf8');
-    let updatedReadme = readme + '## Andys Contributors\n\n';
+    let updatedReadme = readme; // Declare and initialize the 'updatedReadme' variable
     updatedReadme = updatedReadme.replace(/## Top Contributors\n\n([^#]+)/, `## Top Contributors\n\n${contributors.map(contributor => `1. [${contributor.login}](https://github.com/${contributor.login}) - ${contributor.contributions} commits`).join('\n')}\n`);
     updatedReadme = updatedReadme.replace(/## This Month's Most Active Contributors\n\n([^#]+)/, `## This Month's Most Active Contributors\n\n${contributorsThisMonth.map(contributor => `1. [${contributor.login}](https://github.com/${contributor.login}) - ${contributor.contributions} commits`).join('\n')}\n`);
     fs.writeFileSync('README.md', updatedReadme);
