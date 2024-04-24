@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 
 def get_most_active_contributors(owner_repo: dict):
-    token = os.environ["GITHUB_API_TOKEN"]
+    token = os.environ["YOUR_TOKEN"]
     headers = {
         "Accept": "application/vnd.github+json",
         "Authorization": f"Bearer {token}",
@@ -30,7 +30,7 @@ def get_most_active_contributors(owner_repo: dict):
 
 
 def get_most_active_repos(owner_repo: dict):
-    token = os.environ["GITHUB_API_TOKEN"]
+    token = os.environ["YOUR_TOKEN"]
     headers = {
         "Accept": "application/vnd.github+json",
         "Authorization": f"Bearer {token}",
