@@ -29,6 +29,6 @@ jobs:
           pip install requests
 
       - name: Run Python script
-        run: python path/to/your/script.py ${{ env.REPOS }} ${{ env.OWNERS }}
+        run: python .github/scripts/get-stats.py ${{ env.REPOS }} ${{ env.OWNERS }}
         env:
           YOUR_TOKEN: ${{ secrets.GHPAT }}
