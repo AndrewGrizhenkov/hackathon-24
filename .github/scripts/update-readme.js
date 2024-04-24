@@ -65,7 +65,7 @@ async function getCommits(repo) {
     return sortedContributors.slice(0, 10).map(([login, contributions]) => ({ login, contributions }));
 }
 
-async function updateReadme( repo) {
+async function updateReadme(repo) {
     const contributors = await getTopContributors(repo);
     const contributorsThisMonth = await getCommits(repo);
     const readme = fs.readFileSync('README.md', 'utf8');
@@ -74,4 +74,4 @@ async function updateReadme( repo) {
     fs.writeFileSync('README.md', updatedReadme);
 }
 
-updateReadme( 'AndrewGrizhenkov/copilot-metrics-viewer.git');
+updateReadme( 'github.com:kenshoo/react-multi-select.git');
