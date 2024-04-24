@@ -45,23 +45,29 @@ async function getCommits(owner, repo) {
     return sortedContributors.slice(0, 10).map(([login, contributions]) => ({ login, contributions }));
 }
 
-async function updateReadme(owner, repo) {
-    const contributors = await getTopContributors(owner, repo);
-    contributors.unshift({ login: repo, contributions: 0 }); // Add repo to the top contributors
-    const contributorsThisMonth = await getCommits(owner, repo);
-    console.log(contributors);
-    console.log(contributorsThisMonth);
-    const readme = fs.readFileSync('README.md', 'utf8');
-    let updatedReadme = readme; // Declare and initialize the 'updatedReadme' variable
-    const topContributorsSectionRegex = /## Top Contributors\n\n([^#]+)/;
-    const thisMonthContributorsSectionRegex = /## This Month's Most Active Contributors\n\n([^#]+)/;
+async function updateReadme(repos) {
+    for (const repo of repos) {
+        const contributors = await getTopContributors(repo.owner, repo.name);
+        contributors.unshift({ login: repo.name, contributions: 0 }); // Add repo to the top contributors
+        const contributorsThisMonth = await getCommits(repo.owner, repo.name);
+        console.log(contributors);
+        console.log(contributorsThisMonth);
+        const readme = fs.readFileSync('README.md', 'utf8');
+        let updatedReadme = readme; // Declare and initialize the 'updatedReadme' variable
+        const topContributorsSectionRegex = new RegExp(`## Top Contributors - ${repo.name}\\n\\n([^#]+)`);
+        const thisMonthContributorsSectionRegex = new RegExp(`## This Month's Most Active Contributors - ${repo.name}\\n\\n([^#]+)`);
 
-    updatedReadme = updatedReadme.replace(topContributorsSectionRegex, `## Top Contributors - ${repo}\n\n${contributors.map((contributor, index) => `${index + 1}. [${contributor.login}](https://github.com/${contributor.login}) - ${contributor.contributions} commits`).join('\n')}\n`);
-    updatedReadme = updatedReadme.replace(thisMonthContributorsSectionRegex, `## This Month's Most Active Contributors - ${repo}\n\n${contributorsThisMonth.map((contributors, index) => `${index + 1}. [${contributors.login}](https://github.com/${contributors.login}) - ${contributors.contributions} commits`).join('\n')}\n`);
+        updatedReadme = updatedReadme.replace(topContributorsSectionRegex, `## Top Contributors - ${repo.name}\n\n${contributors.map((contributor, index) => `${index + 1}. [${contributor.login}](https://github.com/${contributor.login}) - ${contributor.contributions} commits`).join('\n')}\n`);
+        updatedReadme = updatedReadme.replace(thisMonthContributorsSectionRegex, `## This Month's Most Active Contributors - ${repo.name}\n\n${contributorsThisMonth.map((contributors, index) => `${index + 1}. [${contributors.login}](https://github.com/${contributors.login}) - ${contributors.contributions} commits`).join('\n')}\n`);
 
-    fs.writeFileSync('README.md', updatedReadme);
+        fs.writeFileSync('README.md', updatedReadme);
+    }
 }
 
-// updateReadme('AndrewGrizhenkov', 'copilot-metrics-viewer');
-updateReadme('react', 'pandas');
-updateReadme('facebook','pandas-dev');
+const repos = [
+    { owner: 'AndrewGrizhenkov', name: 'copilot-metrics-viewer' },
+    { owner: 'react', name: 'pandas' },
+    { owner: 'facebook', name: 'pandas-dev' }
+];
+
+updateReadme(repos);
