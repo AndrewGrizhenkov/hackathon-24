@@ -1,0 +1,40 @@
+[
+    {
+        "name": "react",
+        "url": "https://github.com/facebook/react",
+        "commits": 500,
+        "PRs": 10,
+        "stars": 1000,
+        "contributors": [
+            {
+                "id": "zpao",
+                "commits": 500,
+                "PRs": 10
+            },
+            {
+                "id": "gaearon",
+                "commits": 400,
+                "PRs": 8
+            }
+        ]
+    },
+    {
+        "name": "pandas",
+        "url": "https://github.com/pandas-dev/pandas",
+        "commits": 600,
+        "PRs": 100,
+        "stars": 10000,
+        "contributors": [
+            {
+                "id": "jbrockmendel",
+                "commits": 590,
+                "PRs": 10
+            },
+            {
+                "id": "jreback",
+                "commits": 900,
+                "PRs": 8
+            }
+        ]
+    }
+]
