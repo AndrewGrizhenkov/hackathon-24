@@ -58,7 +58,7 @@ def get_most_active_repos(owner_repo: dict):
         try:
             response = requests.get(get_pr_url, headers=headers, params=params)
             response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
-            open_pr_number = len(response.json().get('items', []))
+            open_pr_number = len(response.json())
         except requests.RequestException as e:
             print("Error sending HTTP request:", e)
 
@@ -75,7 +75,7 @@ def get_most_active_repos(owner_repo: dict):
         try:
             response = requests.get(get_commit_url, headers=headers, params=params)
             response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
-            commit_number_past_month = len(response.json().get('items', []))
+            commit_number_past_month = len(response.json())
         except requests.RequestException as e:
             print("Error sending HTTP request:", e)
 
