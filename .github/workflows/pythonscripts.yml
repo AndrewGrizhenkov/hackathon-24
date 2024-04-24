@@ -1,4 +1,4 @@
-name: HTTP Request Workflow
+name: Python script workflow run
 
 on:
   schedule:

@@ -4,7 +4,6 @@ import os
 import json
 from datetime import datetime, timedelta
 
-
 def get_most_active_contributors(owner_repo: dict):
     token = os.environ["YOUR_TOKEN"]
     headers = {
@@ -26,7 +25,7 @@ def get_most_active_contributors(owner_repo: dict):
             repo_contributors[repo] = response.json()
         except requests.RequestException as e:
             return "Error sending HTTP request:" + str(e)
-    return json.dumps(repo_contributors)
+    return repo_contributors
 
 
 def get_most_active_repos(owner_repo: dict):
@@ -72,7 +71,7 @@ def get_most_active_repos(owner_repo: dict):
 
         repo_active_score[repo] = open_pr_number + commit_number_past_month
 
-        return json.dumps(repo_active_score)
+    return repo_active_score
 
 
 owners = sys.argv[1]
@@ -83,11 +82,26 @@ owner_repo = dict()
 for i in range(len(owners)):
     owner_repo[owners[i]] = repos[i]
 
-output = get_most_active_contributors(owner_repo)
-output1 = get_most_active_repos(owner_repo)
+contributors = get_most_active_contributors(owner_repo)
+active_repos = get_most_active_repos(owner_repo)
 
-output = "Some output"  # Replace "Some output" with the actual output you want to write
+# Generate the top contributors list as a Markdown string
+top_contributors_md = "\n".join(
+    f"1. [{contributor['login']}](https://github.com/{contributor['login']}) - {contributor['contributions']} commits"
+    for contributor in top_contributors
+)
 
+# Read the existing README
+with open('README.md', 'r') as f:
+    readme = f.read()
+
+# Replace the Top Contributors section
+updated_readme = re.sub(
+    r'## Top Contributors\n\n([^#]+)',
+    f'## Top Contributors\n\n{top_contributors_md}\n',
+    readme
+)
+
+# Write the updated README
 with open('README.md', 'w') as f:
-    f.write(output)
-    f.write(output1)
+    f.write(updated_readme)
