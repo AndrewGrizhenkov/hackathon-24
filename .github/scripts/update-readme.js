@@ -54,4 +54,4 @@ async function updateReadme(owner, repo) {
     fs.writeFileSync('README.md', updatedReadme);
 }
 
-updateReadme('AndrewGrizhenkov', 'hackathon-24');
+updateReadme('AndrewGrizhenkov', 'cyplau/git-repo-insights.git');
