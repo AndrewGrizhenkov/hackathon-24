@@ -86,8 +86,8 @@ def get_most_active_repos(owner_repo: dict):
         json_file.write(json.dumps(repo_active_score))
 
 
-owners = sys.argv[1]
-repos = sys.argv[2]
+owners = sys.argv[1].split(",")
+repos = sys.argv[2].split(",")
 
 owner_repo = dict()
 
