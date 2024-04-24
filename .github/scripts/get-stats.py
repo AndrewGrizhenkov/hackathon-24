@@ -79,7 +79,7 @@ def get_most_active_repos(owner_repo: dict):
         except requests.RequestException as e:
             print("Error sending HTTP request:", e)
 
-        repo_active_score[repo] = [open_pr, commit_last_month]
+        repo_active_score[repo] = [{"open_pr": open_pr}, {"commit_last_month": commit_last_month}]
 
     # Write the JSON string to the file
     with open(os.path.join(data_folder_path, file_name), "w+") as json_file:
