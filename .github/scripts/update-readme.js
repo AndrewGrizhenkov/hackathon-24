@@ -1,5 +1,5 @@
-const fs = require('fs');
-const axios = require('axios');
+import fs from 'fs';
+import axios from 'axios';
 
 async function getTopContributors(owner, repo) {
     const { data } = await axios.get(`https://api.github.com/repos/${owner}/${repo}/contributors`);
