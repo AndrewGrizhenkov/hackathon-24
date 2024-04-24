@@ -83,5 +83,11 @@ owner_repo = dict()
 for i in range(len(owners)):
     owner_repo[owners[i]] = repos[i]
 
-get_most_active_contributors(owner_repo)
-get_most_active_repos(owner_repo)
+output = get_most_active_contributors(owner_repo)
+output1 = get_most_active_repos(owner_repo)
+
+output = "Some output"  # Replace "Some output" with the actual output you want to write
+
+with open('README.md', 'w') as f:
+    f.write(output)
+    f.write(output1)

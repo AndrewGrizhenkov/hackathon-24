@@ -32,3 +32,11 @@ jobs:
         run: python .github/scripts/get-stats.py ${{ env.REPOS }} ${{ env.OWNERS }}
         env:
           YOUR_TOKEN: ${{ secrets.GHPAT }}
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'AndrewGrizhenkov'
+          git config --global user.email 'andrew.grizhenkov@bjss.com'
+          git add .
+          git commit -am "Update README with top contributors" || exit 0
+          git push https://${{ secrets.GHPAT }}@github.com/AndrewGrizhenkov/hackathon-24.git
